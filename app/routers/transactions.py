@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from sqlmodel import select
 
 from db import SessionDep
@@ -27,7 +27,11 @@ async def create_transation(transaction_data: TransactionCreate, session: Sessio
 
 
 @router.get("/transactions", tags=["transactions"])
-async def list_transaction(session: SessionDep):
-    query = select(Transaction)
+async def list_transaction(
+    session: SessionDep,
+    skip: int = Query(0, description="Registros a omitir"),
+    limit: int = Query(10, description="Número de registros"),
+):
+    query = select(Transaction).offset(skip).limit(limit)
     transactions = session.exec(query).all()
     return transactions
