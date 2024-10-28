@@ -1,2 +1,2 @@
-fastapi['standard']==0.115.3
+fastapi[standard]==0.115.3
 sqlmodel==0.0.22
