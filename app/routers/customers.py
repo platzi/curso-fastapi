@@ -14,7 +14,12 @@ from models import (
 router = APIRouter()
 
 
-@router.post("/customers", response_model=Customer, tags=["customers"])
+@router.post(
+    "/customers",
+    response_model=Customer,
+    status_code=status.HTTP_201_CREATED,
+    tags=["customers"],
+)
 async def create_customer(customer_data: CustomerCreate, session: SessionDep):
     customer = Customer.model_validate(customer_data.model_dump())
     session.add(customer)
